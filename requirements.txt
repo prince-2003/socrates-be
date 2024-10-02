@@ -17,6 +17,7 @@ grpcio-status==1.62.3
 h11==0.14.0
 httplib2==0.22.0
 idna==3.8
+langchain==0.0.213
 pillow==10.4.0
 proto-plus==1.24.0
 protobuf==4.25.4

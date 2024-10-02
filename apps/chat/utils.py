@@ -3,10 +3,10 @@ from langchain.prompts import ChatPromptTemplate
 from langchain.memory import ConversationBufferMemory
 from constants import GEMINI_API_KEY
 
-# Configure the API key for the Gemini AI model
+
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Initialize the AI model for generating content
+
 model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
 # Initialize memory to keep track of the conversation
