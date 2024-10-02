@@ -27,9 +27,9 @@ async def process_chat(chat_request):
     Socratic method, where you ask thought-provoking questions rather than providing direct answers.
 
     The student has asked: "{prompt}" on the question: "{question}" and the following code is written by the user: 
-    ```javascript
+    
     {code}
-    ```
+    
 
     Provide feedback on the code, including suggestions and possible issues that are in his code. Additionally, if the code involves bash scripts,
     if there are some mistake(s) in the code or spelling error than give them instructions to fix them.And limit your response in to 30 words.
