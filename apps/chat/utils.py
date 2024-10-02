@@ -31,9 +31,9 @@ async def process_chat(chat_request):
     {code}
     
 
-    Provide feedback on the code, including suggestions and possible issues that are in his code. Additionally, if the code involves bash scripts,
+    Provide feedback on the code, including suggestions and possible issues that are in his code. Additionally, if there is code involve then give in to pretty format,
     if there are some mistake(s) in the code or spelling error than give them instructions to fix them.And limit your response in to 30 words.
-    format the output in bash-friendly syntax. Respond in a way that makes the code readable and formatted properly.
+    format the output in to text. Respond in a way that makes the code readable and formatted properly.
 """
 
     try:
