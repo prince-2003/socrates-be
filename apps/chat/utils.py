@@ -75,5 +75,5 @@ async def process_chat(chat_request):
         # Log the error or handle it as needed (optional)
         print(f"Error in processing chat request: {e}")
         
-        # Return an error message in case of failure
+        
         return "Failed to generate a response. Please try again."
