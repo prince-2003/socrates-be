@@ -70,8 +70,7 @@ async def session_login(request: Request, user_claims: dict = Depends(check_sess
         response.set_cookie(
             key="session",
             value=session_cookie,
-            httponly=True,
-            max_age=expires_in,
+            max_age=60*60,
             secure=True, 
             samesite="None",
         )
@@ -83,8 +82,9 @@ async def session_login(request: Request, user_claims: dict = Depends(check_sess
 
 @app.post("/session_logout")
 async def session_logout(response: Response):
-    response.delete_cookie("session")
+    response.delete_cookie("session", samesite="None", secure=True)  
     return {"message": "Session cleared"}
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host=SERVER_URL, port=int(PORT), reload=(ENV == "dev"))
