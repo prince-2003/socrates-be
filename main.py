@@ -73,7 +73,7 @@ async def session_login(request: Request, user_claims: dict = Depends(check_sess
             httponly=True,
             max_age=expires_in,
             secure=True, 
-            samesite="Strict",
+            samesite="None",
         )
         return response
 
