@@ -50,34 +50,47 @@ app.include_router(router, prefix="/api", tags=["chat"])
 
 @app.post("/session_login")
 async def session_login(request: Request, user_claims: dict = Depends(check_session)):
-    
-    if user_claims:
-        return {"message": "User already logged in", "user": user_claims}
-    data = await request.json()
-    id_token = data.get("idToken")
-    if not id_token:
-        raise HTTPException(status_code=400, detail="ID token is required")
-
     try:
+        # Check if the user is already logged in
+        if user_claims:
+            return {"message": "User already logged in", "user": user_claims}
+
+        # Parse the incoming request body
+        data = await request.json()
+        id_token = data.get("idToken")
+        
+        # Ensure that the idToken is provided
+        if not id_token:
+            raise HTTPException(status_code=400, detail="ID token is required")
+
+        # Verify the ID token with Firebase
         decoded_token = auth.verify_id_token(id_token)
         uid = decoded_token["uid"]
 
-        
-        expires_in = 60 * 60 * 24 * 14  
+        # Create session cookie
+        expires_in = 60 * 60  # Example: 1 hour (adjust as needed)
         session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
 
-        response = Response("Session created")
+        # Create the response and set the session cookie
+        response = Response(content="Session created", status_code=200)
         response.set_cookie(
             key="session",
             value=session_cookie,
-            max_age=60*60,
-            secure=True, 
-            samesite="None",
+            max_age=expires_in,
+            # httponly=True,
+            secure=True,  # Ensure secure transfer over HTTPS
+            samesite="None",  # To allow cross-site requests with the cookie
         )
+
         return response
 
     except auth.InvalidIdTokenError:
         raise HTTPException(status_code=401, detail="Invalid ID token")
+
+    except Exception as e:
+        # Catch any unexpected error and return a 500 Internal Server Error
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+
 
 
 @app.post("/session_logout")
