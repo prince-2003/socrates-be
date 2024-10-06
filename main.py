@@ -100,4 +100,4 @@ async def session_logout(response: Response):
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host=SERVER_URL, port=int(PORT), reload=(ENV == "dev"))
+    uvicorn.run("main:app", host=SERVER_URL, port=8900, reload=(ENV == "dev"))
