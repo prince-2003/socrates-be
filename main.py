@@ -69,7 +69,7 @@ async def session_login(request: Request):
         response = JSONResponse(content={'status': 'success'})
         expires = datetime.now(timezone.utc) + expires_in  # Ensure expires is in UTC
         response.set_cookie(
-            key='session', value=session_cookie, expires=expires, httponly=True, secure=True)
+            key='session', value=session_cookie, expires=expires, httponly=True, secure=True, samesite='None')
         return response
     except exceptions.FirebaseError:
         raise HTTPException(status_code=401, detail="Failed to create a session cookie")
