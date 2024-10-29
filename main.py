@@ -98,7 +98,7 @@ def serve_content_for_user(decoded_claims):
 @app.post('/sessionLogout')
 async def session_logout():
     response = JSONResponse(content={'status': 'logged_out'})
-    response.delete_cookie('session')
+    response.delete_cookie('session', samesite='None',httponly=True, secure=True)
     return response
 
 @app.get("/fetch-data")
