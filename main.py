@@ -118,6 +118,13 @@ async def fetch_data(id: Optional[str] = None, token_data=Depends(verify_session
     
     return JSONResponse(content={'status': 'success', 'documents': documents})
 
+@app.post("/add-data")
+async def add_data(request: Request, token_data=Depends(verify_session_token)):
+    doc_ref = db.collection("problems")
+    body = await request.json()
+    doc_ref.add(body)
+    return JSONResponse(content={'status': 'success', 'message': 'Document added successfully'})
+
 
 if __name__ == "__main__":
     uvicorn.run("main:app", host=SERVER_URL, port=8900, reload=(ENV == "dev"))
