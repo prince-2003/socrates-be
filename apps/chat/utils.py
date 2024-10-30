@@ -52,40 +52,38 @@ async def process_chat(chat_request: ChatRequest, request: Request):
     testcases = problem['testCases']
     
     # Check for failed test cases
-   failedIndexes = chat_request.testResults.get('failedIndexes') if chat_request.testResults else None
+    failedIndexes = chat_request.testResults.get('failedIndexes') if chat_request.testResults else None
+
     if failedIndexes:
         failed_testcases = [testcases[i] for i in failedIndexes]
-        
         
         socratic_prompt = f"""
         You are an AI teaching assistant designed to help a student understand the intricacies of Data Structures 
         and Algorithms. Your goal is to guide the student using the 
         Socratic method, where you ask thought-provoking questions rather than providing direct answers.
 
-        The student has asked: "{prompt}" on the coding question: "{question}", testcases are {testcases}  and the following code is written by the user: 
+        The student has asked: "{prompt}" on the coding question: "{question}", testcases are {testcases} and the following code is written by the user: 
         
         {code}
         
         The following test cases have failed: {failed_testcases}
 
-        Provide feedback on the code, including suggestions and possible issues that are in his code. Additionally, if there is code involve then give in to pretty format,
-        if there are some mistake(s) in the code or spelling error than give them instructions to fix them.And limit your response in to 30 words,
+        Provide feedback on the code, including suggestions and possible issues that are in his code. Additionally, if there is code involved then give it in a pretty format,
+        if there are some mistake(s) in the code or spelling error then give them instructions to fix them. Limit your response to 30 words,
         also check if testcases are wrong or not.
-        format the output in to text. Respond in a way that makes the code readable and formatted properly.
+        Format the output in text. Respond in a way that makes the code readable and formatted properly.
         """
     else:
-       socratic_prompt = f"""
+        socratic_prompt = f"""
         You are an AI teaching assistant designed to help a student understand the intricacies of Data Structures 
         and Algorithms. Your goal is to guide the student using the 
         Socratic method, where you ask thought-provoking questions rather than providing direct answers.
 
-        The student has asked: "{prompt}" on the coding question: "{question}", testcases are {testcases}  and the following code is written by the user: 
+        The student has asked: "{prompt}" on the coding question: "{question}", testcases are {testcases} and the following code is written by the user: 
         
         {code}
         
-        The following test cases have failed: {failed_testcases}
-
-        Provide a comprehensive overview of the code, test cases, and failed test cases. Include suggestions and possible issues in the code or testcases. Additionally, if there is code involved, format it properly.
+        Provide a comprehensive overview of the code, test cases, and any issues that may exist. Include suggestions and possible issues in the code or testcases. Additionally, if there is code involved, format it properly.
         If there are some mistake(s) in the code or spelling errors, give instructions to fix them. Also, check if the test cases are wrong or not. Limit your response to 30 words.
         Format the output in text. Respond in a way that makes the code readable and formatted properly.
         """
@@ -108,8 +106,6 @@ async def process_chat(chat_request: ChatRequest, request: Request):
         {socratic_prompt}
         """
         
-        
-
         # Generate a response using the model
         response = model.generate_content(chat_prompt)
 
