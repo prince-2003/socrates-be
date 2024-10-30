@@ -1,7 +1,8 @@
 from pydantic import BaseModel
+from typing import Optional
 
 class ChatRequest(BaseModel):
     id: str
     dict_of_vars: dict
     prompt: str
-    testResults : optional[dict] = None
+    testResults : Optional[dict] = None
