@@ -52,7 +52,7 @@ async def process_chat(chat_request: ChatRequest, request: Request):
     testcases = problem['testCases']
     
     # Check for failed test cases
-    failedIndexes = chat_request.testResults.get('failedIndexes')
+   failedIndexes = chat_request.testResults.get('failedIndexes') if chat_request.testResults else None
     if failedIndexes:
         failed_testcases = [testcases[i] for i in failedIndexes]
         
