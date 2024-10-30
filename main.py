@@ -14,16 +14,13 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from firebase_admin import auth
 from datetime import datetime, timedelta, timezone
 from firebase_admin import auth, exceptions
+from firebase_client import db
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
-if not firebase_admin._apps:
-    cred = credentials.Certificate('./socratic.json')  # Correct path to your service account key
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
 
 
 app.add_middleware(
@@ -124,6 +121,8 @@ async def add_data(request: Request, token_data=Depends(verify_session_token)):
     body = await request.json()
     doc_ref.add(body)
     return JSONResponse(content={'status': 'success', 'message': 'Document added successfully'})
+
+
 
 
 if __name__ == "__main__":
