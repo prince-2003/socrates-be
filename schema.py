@@ -4,4 +4,4 @@ class ChatRequest(BaseModel):
     id: str
     dict_of_vars: dict
     prompt: str
-    testResults : dict
+    testResults : Optional[dict] = None
